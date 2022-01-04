@@ -120,6 +120,36 @@ impl RawJointSet {
         })
     }
 
+    /// Sets the position of the first local anchor
+    #[cfg(feature = "dim3")]
+    pub fn setJointAnchor1(
+        &mut self,
+        handle: u32,
+        newPos: &RawVector,
+    ) {
+        self.map_mut(handle, |j| match &mut j.params {
+            JointParams::BallJoint(b) => b.configure_local_anchor1_position(newPos.0.into()),
+            JointParams::RevoluteJoint(r) => r.configure_local_anchor1_position(newPos.0.into()),
+            JointParams::PrismaticJoint(p) => p.configure_local_anchor1_position(newPos.0.into()),
+            JointParams::FixedJoint(_) => {},
+        })
+    }
+
+    /// Sets the position of the second local anchor
+    #[cfg(feature = "dim3")]
+    pub fn setJointAnchor2(
+        &mut self,
+        handle: u32,
+        newPos: &RawVector,
+    ) {
+        self.map_mut(handle, |j| match &mut j.params {
+            JointParams::BallJoint(b) => b.configure_local_anchor2_position(newPos.0.into()),
+            JointParams::RevoluteJoint(r) => r.configure_local_anchor2_position(newPos.0.into()),
+            JointParams::PrismaticJoint(p) => p.configure_local_anchor2_position(newPos.0.into()),
+            JointParams::FixedJoint(_) => {},
+        })
+    }
+
     /// The position of the second anchor of this joint.
     ///
     /// The second anchor gives the position of the points application point on the
