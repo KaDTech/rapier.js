@@ -5,14 +5,14 @@
   "scripts": {
     "build-rust-2d": "cd ../rapier2d ; wasm-pack build --target web",
     "build-rust-3d": "cd ../rapier3d ; wasm-pack build --target web",
-    "build-rust": "npm run build-rust-2d && npm run build-rust-3d",
+    "build-rust": "yarn build-rust-2d && yarn build-rust-3d",
     "build-genjs": "sh ./gen_src.sh",
     "build-js": "rollup --config rollup.config.js",
     "fix-raw-file": "sh ./fix_raw_file.sh",
-    "build": "npm run clean && npm run build-rust && npm run build-genjs && npm run build-js && npm run fix-raw-file",
+    "build": "yarn clean && yarn build-rust && yarn build-genjs && yarn build-js && yarn fix-raw-file",
     "clean": "npx rimraf ../rapier2d/pkg ../rapier3d/pkg pkg2d pkg3d gen2d gen3d ../rapier2d/docs ../rapier3d/docs",
     "test": "jest --detectOpenHandles",
-    "all": "npm run build"
+    "all": "yarn build"
   },
   "dependencies": {
     "base64-js": "^1.5.1"
