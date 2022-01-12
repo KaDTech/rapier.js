@@ -499,6 +499,22 @@ export class RigidBody {
         rawImpulse.free();
     }
 
+    public setMassProperties(
+        centerOfMass: Vector,
+        mass: number,
+        principalAngularInertia: Vector,
+        angularInertiaFrame: Rotation,
+        wakeUp: boolean,
+    ) {
+        const rawCenterOfMass = VectorOps.intoRaw(centerOfMass);
+        const rawPrincipalAngularInertia = VectorOps.intoRaw(principalAngularInertia);
+        const rawAngularInertiaFrame = RotationOps.intoRaw(angularInertiaFrame);
+        this.rawSet.rbSetMassProperties(this.handle, rawCenterOfMass, mass, rawPrincipalAngularInertia, rawAngularInertiaFrame, wakeUp);
+        rawCenterOfMass.free();
+        rawPrincipalAngularInertia.free();
+        rawAngularInertiaFrame.free();
+    }
+
     // #if DIM2
     /**
      * Applies a torque at the center-of-mass of this rigid-body.

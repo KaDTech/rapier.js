@@ -1,5 +1,6 @@
 use crate::dynamics::{RawRigidBodySet, RawRigidBodyType};
 use crate::math::{RawRotation, RawVector};
+use rapier::dynamics::{MassProperties, RigidBody, RigidBodyBuilder};
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
@@ -336,6 +337,37 @@ impl RawRigidBodySet {
 
     pub fn rbSetGravityScale(&mut self, handle: u32, factor: f32, wakeUp: bool) {
         self.map_mut(handle, |rb| rb.set_gravity_scale(factor, wakeUp));
+    }
+
+    /// Changes the mass properties of a rigid body
+    ///
+    /// # Parameters
+    /// - `impulse`: the world-space impulse to apply on the rigid-body.
+    /// - `wakeUp`: should the rigid-body be automatically woken-up?
+    #[cfg(feature = "dim3")]
+    pub fn rbSetMassProperties(&mut self, handle: u32, centerOfMass: &RawVector, mass: f32, principalAngularInertia: &RawVector, angularInertiaFrame: &RawRotation, wakeUp: bool) {
+        let props = MassProperties::with_principal_inertia_frame(
+            centerOfMass.0.into(),
+            mass,
+            principalAngularInertia.0,
+            angularInertiaFrame.0,
+        );
+        self.map_mut(handle, |rb| {
+            rb.set_mass_properties(props, wakeUp);
+        })
+    }
+
+    #[cfg(feature = "dim2")]
+    pub fn rbSetMassProperties(&mut self, handle: u32, centerOfMass: &RawVector, mass: f32, principalAngularInertia: &RawVector, angularInertiaFrame: &RawRotation, wakeUp: bool) {
+        // let props = MassProperties::with_principal_inertia_frame(
+        //     centerOfMass.0.into(),
+        //     mass,
+        //     principalAngularInertia.0,
+        //     angularInertiaFrame.0,
+        // );
+        // self.map_mut(handle, |rb| {
+        //     rb.set_mass_properties(props, wakeUp);
+        // })
     }
 
     /// Applies a force at the center-of-mass of this rigid-body.
