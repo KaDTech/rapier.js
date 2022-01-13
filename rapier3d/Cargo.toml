@@ -36,3 +36,13 @@ crossbeam-channel = "0.4"
 [package.metadata.wasm-pack.profile.release]
 # add -g to keep debug symbols
 wasm-opt = ['-O4'] # , '-g']
+codegen-units = 1
+lto = true
+
+[profile.release]
+wasm-opt = ['-O4'] # , '-g']
+codegen-units = 1
+lto = true
+
+[rust]
+codegen-units = 1
