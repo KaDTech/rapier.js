@@ -43,7 +43,7 @@ return {
           dest: `./pkg${dim}/`,
           transform(content) {
             let config = JSON.parse(content.toString());
-            config.name = `@dimforge/rapier${dim}-compat`;
+            config.name = `@kadtech/kadtechrapier${dim}-compat`;
             config.description +=
               " Compatibility package with inlined webassembly as base64.";
             config.types = "rapier.d.ts";
