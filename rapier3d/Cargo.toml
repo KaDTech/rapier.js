@@ -38,11 +38,14 @@ crossbeam-channel = "0.4"
 wasm-opt = ['-O4'] # , '-g']
 codegen-units = 1
 lto = true
+opt-level = 3
 
 [profile.release]
 wasm-opt = ['-O4'] # , '-g']
 codegen-units = 1
 lto = true
+opt-level = 3
 
 [rust]
 codegen-units = 1
+opt-level = 3
