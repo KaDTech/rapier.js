@@ -193,7 +193,7 @@ export class Collider {
      * Get the physics hooks active for this collider.
      */
     public activeHooks() {
-        this.rawSet.coActiveHooks(this.handle);
+        return this.rawSet.coActiveHooks(this.handle);
     }
 
     /**
@@ -418,6 +418,13 @@ export class Collider {
      */
     public friction(): number {
         return this.rawSet.coFriction(this.handle);
+    }
+
+    /**
+     * The restitution coefficient of this collider.
+     */
+     public restitution(): number {
+        return this.rawSet.coRestitution(this.handle);
     }
 
     /**
