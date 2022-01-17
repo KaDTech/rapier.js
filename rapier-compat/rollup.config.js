@@ -2,12 +2,24 @@ const { base64 } = require("rollup-plugin-base64");
 import { terser } from 'rollup-plugin-terser';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from "@rollup/plugin-commonjs";
-import typescript from "@rollup/plugin-typescript";
+import typescript from "rollup-plugin-typescript2";
 import filesize from "rollup-plugin-filesize";
 import copy from "rollup-plugin-copy";
 import path from "path";
 
-const config = (dim) => ({
+const config = (dim) => {
+  const includedPaths = [
+    `./gen${dim}/**/*.ts`,
+    path.resolve(__dirname, `gen${dim}/**/*.ts`),
+  `./gen${dim}/*.ts`,
+  path.resolve(__dirname, `gen${dim}/*.ts`),
+  `./src${dim}/*`,
+  path.resolve(__dirname, `src${dim}/*`)
+];
+  console.log(`dim=${dim} __dirname=${__dirname}`);
+  console.log(`includedPaths=${includedPaths}`);
+
+return {
   input: `./gen${dim}/rapier.ts`,
   output: [
     {
@@ -31,7 +43,7 @@ const config = (dim) => ({
           dest: `./pkg${dim}/`,
           transform(content) {
             let config = JSON.parse(content.toString());
-            config.name = `@dimforge/rapier${dim}-compat`;
+            config.name = `@kadtech/kadtechrapier${dim}-compat`;
             config.description +=
               " Compatibility package with inlined webassembly as base64.";
             config.types = "rapier.d.ts";
@@ -58,12 +70,12 @@ const config = (dim) => ({
     commonjs(),
     typescript({
       tsconfig: path.resolve(__dirname, `tsconfig.pkg${dim}.json`),
-      include: [`./gen${dim}/**/*.ts`, `./src${dim}/*`],
+      include: includedPaths,
       sourceMap: true,
       inlineSources: true,
     }),
     filesize(),
   ],
-});
+}};
 
 export default [config("2d"), config("3d")];

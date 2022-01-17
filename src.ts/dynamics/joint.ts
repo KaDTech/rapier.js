@@ -202,6 +202,18 @@ export class BallJoint extends Joint {
             targetVel.x, targetVel.y, targetVel.z,
             stiffness, damping);
     }
+
+    public setJointAnchor1(newPos: Vector) {
+        const rawPoint = VectorOps.intoRaw(newPos);
+        this.rawSet.setJointAnchor1(this.handle, rawPoint);
+        rawPoint.free();
+    }
+
+    public setJointAnchor2(newPos: Vector) {
+        const rawPoint = VectorOps.intoRaw(newPos);
+        this.rawSet.setJointAnchor2(this.handle, rawPoint);
+        rawPoint.free();
+    }
 }
 
 export class RevoluteJoint extends UnitJoint {}
